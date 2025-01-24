@@ -1,4 +1,5 @@
 require_relative 'lib/game'
+require_relative 'lib/computerplayer'
+require_relative 'lib/humanplayer'
 
-game = Game.new
-game.play
+Game.new(ComputerPlayer, HumanPlayer).play
