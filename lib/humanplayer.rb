@@ -14,10 +14,10 @@ class HumanPlayer < Player
   # Get secret code, do validation and set it in Game class
   # This method is used for both code maker and code breaker
   def get_code_input(colors)
-    code = gets.chomp.upcase.chars
+    code = gets.chomp.upcase.chars.map(&:to_sym)
     until is_valid_code?(code, colors)
       puts 'Invalid code, try again: '
-      code = gets.chomp.upcase.chars
+      code = gets.chomp.upcase.chars.map(&:to_sym)
     end
     code
   end
@@ -25,6 +25,6 @@ class HumanPlayer < Player
   private
 
   def is_valid_code?(code, colors)
-    code.length == 4 && code.all? { |color| colors.key?(color.to_sym) }
+    code.length == 4 && code.all? { |color| colors.key?(color) }
   end
 end
