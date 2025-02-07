@@ -26,7 +26,7 @@ class ComputerPlayer < Player
 
   # Guess 1122 for the first guess (where 1 is the first color, 2 is the second, etc.)
   # Then guess a random code from the remaining candidate codes in set after filtering if not the first guess
-  def get_guess(colors, first_guess)
+  def get_code_guess(colors, first_guess)
     if first_guess
       first_color = colors.keys[0]
       second_color = colors.keys[1]

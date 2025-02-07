@@ -1,5 +1,6 @@
 require_relative 'humanplayer'
 require_relative 'computerplayer'
+require_relative 'feedback'
 require 'pry-byebug'
 
 class Game
@@ -57,6 +58,7 @@ class Game
       puts 'Enter your secret code (4 colors, no spaces): '
       @secret_code = @code_maker.get_code_input(COLORS)
     else
+      puts 'Computer is setting secret code...'
       @secret_code = @code_maker.get_secret_code(COLORS)
     end
   end
