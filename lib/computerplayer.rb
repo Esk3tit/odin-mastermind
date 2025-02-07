@@ -19,7 +19,7 @@ class ComputerPlayer < Player
 
   # Keep all codes that match the feedback for the guess if it were to be the secret code
   def filter_candidate_codes(guess, feedback)
-    @candidate_codes.select do |code|
+    @candidate_codes.select! do |code|
       FeedbackGenerator.generate_feedback(guess, code) == feedback
     end
   end
