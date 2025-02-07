@@ -66,8 +66,11 @@ class Game
       puts 'Enter your guess (4 colors, no spaces): '
       @board[@current_guess] = @code_breaker.get_code_input(COLORS)
     else
-      # TODO: Implement computer code guess heuristic
-      # @code_guess = @code_breaker.get_code_guess(COLORS)
+      first_guess = @current_guess == 0
+      if first_guess
+        @code_breaker.generate_candidate_codes(COLORS)
+      end
+      @board[@current_guess] = @code_breaker.get_code_guess(COLORS, first_guess)
     end
   end
 
@@ -110,33 +113,9 @@ class Game
 
   # Set feedback pegs based on guess and secret code
   def process_feedback
-    feedback = []
-    unprocessed_secret_colors = Hash.new(0)
-    unprocessed_guess_colors = Hash.new(0)
-
-    @board[@current_guess].each_with_index do |peg, index|
-      # If the peg is in the correct position, add a black peg to the feedback
-      binding.pry
-      if peg == @secret_code[index]
-        feedback << :K
-      else
-        # If the peg is in the wrong position, track the color in both the secret and guess
-        # Since we could encounter these colors later in both the secret and guess
-        # and it could end up being a white peg
-        unprocessed_secret_colors[peg] += 1
-        unprocessed_guess_colors[@secret_code[index]] += 1
-      end
+    @feedback[@current_guess] = FeedbackGenerator.generate_feedback(@board[@current_guess], @secret_code)
+    if @code_breaker.is_a?(ComputerPlayer)
+      @code_breaker.filter_candidate_codes(@board[@current_guess], @feedback[@current_guess])
     end
-
-    # Process the white pegs
-    unprocessed_guess_colors.each do |color, count|
-      white_pegs = [count, unprocessed_secret_colors[color]].min
-      white_pegs.times { feedback << :W }
-    end
-
-    # Fill in the feedback array with nil values for any remaining positions
-    (4 - feedback.length).times { feedback << nil }
-
-    @feedback[@current_guess] = feedback
   end
 end
