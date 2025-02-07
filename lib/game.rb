@@ -34,8 +34,8 @@ class Game
     puts 'Welcome to Mastermind!'
     puts "The code maker is #{@code_maker.name} and the code breaker is #{@code_breaker.name}"
 
-    set_secret_code
     print_legend
+    set_secret_code
     
     until @current_guess == @num_guesses || @is_win
       debug_print_secret_code
